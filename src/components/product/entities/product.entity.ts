@@ -8,4 +8,7 @@ export class Product {
 
     @Column({ name: 'name' })
     name: string;
+
+    @Column({ name: 'um' })
+    um: string;
 }
