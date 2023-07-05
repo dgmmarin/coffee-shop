@@ -14,5 +14,5 @@ export default new DataSource({
   database: DB_DATABASE,
   entities: [__dirname + '/src/components/**/**/*.entity.{ts,js}'],
   migrations: [__dirname + '/src/database/migrations/*{.ts,.js}'],
-  "extra": { "insecureAuth": true }
+  extra: { insecureAuth: true }
 } as DataSourceOptions);

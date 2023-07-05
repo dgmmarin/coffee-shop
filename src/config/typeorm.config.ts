@@ -7,7 +7,7 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
             host: '127.0.0.1',
             port: 3306,
             username: 'root',
-            password: 'Qwerty123456!@#$%^',
+            password: '',
             database: 'coffee_shop',
             entities: [__dirname + '/../**/*.entity{.ts,.js}'],
             migrations: [__dirname + '/../database/migrations/*{.ts/.js}'],
@@ -16,7 +16,7 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
             synchronize:true,
             migrationsRun: true,
             extra:{
-                "insecureAuth": true    
+                insecureAuth: true,   
             }
         };
     }
