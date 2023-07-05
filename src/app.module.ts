@@ -7,7 +7,7 @@ import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { UserModule } from './components/user/user.module';
 import { TableModule } from './components/table/table.module';
 import { OrderModule } from './components/order/order.module';
-import { CheckHeadersMiddleware } from './middlewares/check-headers/check-headers.middleware';
+import { RoleModule } from './components/role/role.module';
 
 @Module({
   imports: [
@@ -15,15 +15,11 @@ import { CheckHeadersMiddleware } from './middlewares/check-headers/check-header
     ProductModule,
     UserModule,
     TableModule,
-    OrderModule, 
+    OrderModule,
+    RoleModule, 
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(CheckHeadersMiddleware)
-      .forRoutes('product');
-  }
+export class AppModule {
 }
