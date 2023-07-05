@@ -4,6 +4,7 @@
 - nest new coffee-shop
 - npm i --save @nestjs/typeorm typeorm
 - npm install mysql2 —save
+- npm install -i class-validator --save
 
 
 # RUN PROJECT

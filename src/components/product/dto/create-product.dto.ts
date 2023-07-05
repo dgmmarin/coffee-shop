@@ -1,1 +1,6 @@
-export class CreateProductDto {}
+import { IsNotEmpty } from "class-validator";
+
+export class CreateProductDto {
+    @IsNotEmpty()
+    name: String
+}
