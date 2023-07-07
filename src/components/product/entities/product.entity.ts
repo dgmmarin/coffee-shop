@@ -1,5 +1,6 @@
+import { OrderProduct } from "src/components/order-product/entities/order-product.entity";
 import { Order } from "src/components/order/entities/order.entity";
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: 'products'})
 export class Product {
@@ -11,4 +12,10 @@ export class Product {
 
     @Column({ name: 'um' })
     um: string;
+    
+    @Column({ name: 'stock' })
+    stock: string; 
+
+    @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product)
+    orderProducts: OrderProduct[]
 }

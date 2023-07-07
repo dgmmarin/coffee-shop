@@ -9,6 +9,7 @@ import { TableModule } from './components/table/table.module';
 import { OrderModule } from './components/order/order.module';
 import { RoleModule } from './components/role/role.module';
 import { OrderProductModule } from './components/order-product/order-product.module';
+import { UserRolesModule } from './components/user-roles/user-roles.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { OrderProductModule } from './components/order-product/order-product.mod
     TableModule,
     OrderModule,
     RoleModule,
-    OrderProductModule, 
+    OrderProductModule,
+    UserRolesModule, 
   ],
   controllers: [AppController],
   providers: [AppService],
