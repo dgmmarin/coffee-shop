@@ -1,5 +1,6 @@
+import { UserRole } from "src/components/user-roles/entities/user-role.entity";
 import { User } from "src/components/user/entities/user.entity";
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: 'roles' })
 export class Role {
@@ -18,17 +19,7 @@ export class Role {
     @Column({ name: 'deleted_at', nullable: true })
     deletedAt: Date;
 
-    @ManyToMany(() => User, user => user.roles)
-    @JoinTable({
-        name: 'user_roles',
-        joinColumn: {
-            name: 'role_id',
-            referencedColumnName: 'id',
-        },
-        inverseJoinColumn: {
-            name: 'user_id',
-            referencedColumnName: 'id',
-        }
-    })
-    users: User[];
+    @OneToMany(() => UserRole, (userRole) => userRole.user)
+    users: User[]
+
 }

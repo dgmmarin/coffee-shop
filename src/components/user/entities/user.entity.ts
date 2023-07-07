@@ -27,7 +27,7 @@ export class User {
     @Column({name: 'created_at',default: () => "CURRENT_TIMESTAMP"})
     createdAt: Date;
 
-    @Column({ name: 'updated_at', nullable: true})
+    @Column({ name: 'updated_at_', nullable: true})
     updatedAt: Date;
 
     @Column({ name: 'deleted_at', nullable: true})
