@@ -1,26 +1,51 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Product } from './entities/product.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProductService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  constructor(
+    @InjectRepository(Product) private productRepository: Repository<Product>
+  ){}
+  async create(createProductDto: CreateProductDto): Promise<Product | Error>{
+    const product = new Product();
+    product.name = createProductDto.name;
+    product.um = createProductDto.um;
+    product.stock = createProductDto.stock;
+    await this.productRepository.save(product);
+    return product;
   }
 
-  findAll() {
-    return `This action returns all product`;
+  async findAll() {
+    const products = await this.productRepository.find();
+    return products;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+
+  async findOne(id: number) {
+    return await this.productRepository.findOneOrFail({
+      where:{
+        id: id
+      }
+    })
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    let product = await this.findOne(id);
+    if (updateProductDto.stock != undefined) {
+      product.stock = updateProductDto.stock;
+    }
+
+    if (updateProductDto.um != undefined) {
+      product.um = updateProductDto.um
+    }
+    return await this.productRepository.save(product);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number) {
+    return await this.productRepository.softDelete({id: id})
   }
 }
