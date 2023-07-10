@@ -4,6 +4,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { EntityNotFoundFilter } from 'src/filters/entity-not-found/entity-not-found.filter';
 import { HttpExceptionFilterFilter } from 'src/filters/http-exception-filter/http-exception-filter.filter';
+import { Public } from 'src/services/auth/constants';
 
 @Controller('product')
 @UseFilters(new EntityNotFoundFilter(), new HttpExceptionFilterFilter())
@@ -15,6 +16,7 @@ export class ProductController {
     return this.productService.create(createProductDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.productService.findAll();

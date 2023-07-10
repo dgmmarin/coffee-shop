@@ -21,7 +21,7 @@ export class User {
     @Column({ name: 'password' })
     password: string;
 
-    @Column({ name: 'phone_number' })
+    @Column({ name: 'phone_number', default: null })
     phoneNumber: string;
 
     @Column({name: 'created_at',default: () => "CURRENT_TIMESTAMP"})
