@@ -8,7 +8,7 @@ import { HttpExceptionFilterFilter } from 'src/filters/http-exception-filter/htt
 import { ValidationFilter } from 'src/filters/validation/validation.filter';
 
 @Controller('user')
-@UseFilters(new ValidationFilter(), )
+@UseFilters(new HttpExceptionFilterFilter(), new EntityNotFoundFilter())
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

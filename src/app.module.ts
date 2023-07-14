@@ -27,10 +27,12 @@ import { AuthGuard } from './services/auth/guards/auth.guard';
     AuthModule, 
   ],
   controllers: [AppController],
-  providers: [AppService,{
-    provide: APP_GUARD,
-    useClass: AuthGuard,
-  },],
+  providers: [AppService,
+  //   {
+  //   provide: APP_GUARD,
+  //   useClass: AuthGuard,
+  // },
+],
 })
 export class AppModule {
 }
