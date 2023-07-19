@@ -1,5 +1,5 @@
 import { Role } from "src/components/role/entities/role.entity";
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name:"users"})
 export class User {
@@ -33,6 +33,15 @@ export class User {
     @Column({ name: 'deleted_at', nullable: true})
     deletedAt: Date;
 
-    @ManyToMany(() => Role, role => role.users)
+    @ManyToMany(() => Role)
+    @JoinTable({
+        name: "user_roles",
+        joinColumn:{
+            name: "user_id",
+        },
+        inverseJoinColumn:{
+            name: "role_id"
+        }
+    })
     roles: Role[];
 }

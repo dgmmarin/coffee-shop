@@ -10,7 +10,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forFeature([Product]),
   ],
   controllers: [ProductController],
-  providers: [ProductService]
+  providers: [ProductService],
+  exports:[ProductService]
 })
 export class ProductModule  implements NestModule {
   configure(consumer: MiddlewareConsumer) {

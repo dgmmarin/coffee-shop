@@ -1,14 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { Role } from '../role/entities/role.entity';
+import { CreateRoleDto } from './dto/add-role.dro';
+import { RoleService } from '../role/role.service';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @Inject(RoleService) private roleService: RoleService,
   ){}
   async create(createUserDto: CreateUserDto) {
     const user = new User();
@@ -19,31 +23,50 @@ export class UserService {
     return await this.userRepository.save(user);
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+   return await this.userRepository.find()
   }
 
   async findOne(id: number) {
-    return await this.userRepository.findOneOrFail({
+    let usr = await this.userRepository.findOneOrFail({
       where:{
         id:id
+      },
+      relations:{
+        roles: true
       }
-    }) 
+    })
+    return usr 
   }
 
   async findOneByEmail(email: string) {
-    return await this.userRepository.findOneOrFail({
+    let usr = await this.userRepository.findOneOrFail({
       where:{
         email:email
+      },
+      relations:{
+        roles: true
       }
     }) 
+    return usr
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    let usr = await this.findOne(id)
+    usr.email = updateUserDto.email ?? usr.email;
+    usr.firstName = updateUserDto.firstName ?? usr.firstName;
+    usr.lastName = updateUserDto.lastName ?? usr.lastName;
+    return await this.userRepository.save(usr);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async addRole(id: number,  addRole: CreateRoleDto) {
+    let usr = await this.findOne(id);
+    let role = await this.roleService.findOne(addRole.roleId);
+    usr.roles.push(role);
+    return await this.userRepository.save(usr);
+  }
+
+  async remove(id: number) {
+    return await this.userRepository.softDelete({id:id})
   }
 }

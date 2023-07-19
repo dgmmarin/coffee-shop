@@ -1,4 +1,4 @@
-import { UserRole } from "src/components/user-roles/entities/user-role.entity";
+
 import { User } from "src/components/user/entities/user.entity";
 import { Column, DeleteDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -19,6 +19,6 @@ export class Role {
     @DeleteDateColumn({ name: 'deleted_at' })
     deletedAt: Date;
 
-    @OneToMany(() => UserRole, (userRole) => userRole.user)
+    @ManyToMany(() => User)
     users: User[]
 }

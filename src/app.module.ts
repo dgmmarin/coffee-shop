@@ -9,10 +9,10 @@ import { TableModule } from './components/table/table.module';
 import { OrderModule } from './components/order/order.module';
 import { RoleModule } from './components/role/role.module';
 import { OrderProductModule } from './components/order-product/order-product.module';
-import { UserRolesModule } from './components/user-roles/user-roles.module';
 import { AuthModule } from './services/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './services/auth/guards/auth.guard';
+import { RolesGuard } from './services/auth/guards/roles.guard';
 
 @Module({
   imports: [
@@ -23,16 +23,19 @@ import { AuthGuard } from './services/auth/guards/auth.guard';
     OrderModule,
     RoleModule,
     OrderProductModule,
-    UserRolesModule,
-    AuthModule, 
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService,
-  //   {
-  //   provide: APP_GUARD,
-  //   useClass: AuthGuard,
-  // },
-],
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {
 }
