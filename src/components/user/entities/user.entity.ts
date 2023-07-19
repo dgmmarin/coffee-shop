@@ -1,5 +1,5 @@
 import { Role } from "src/components/role/entities/role.entity";
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name:"users"})
 export class User {
@@ -30,7 +30,7 @@ export class User {
     @Column({ name: 'updated_at', nullable: true})
     updatedAt: Date;
 
-    @Column({ name: 'deleted_at', nullable: true})
+    @DeleteDateColumn({ name: 'deleted_at', nullable: true})
     deletedAt: Date;
 
     @ManyToMany(() => Role)

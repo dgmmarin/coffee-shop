@@ -22,7 +22,7 @@ export class UserController {
   }
 
   @Get()
-  @Roles( Role.Admin)
+  @Roles( Role.Admin, Role.Manager)
   findAll() {
     return this.userService.findAll();
   }

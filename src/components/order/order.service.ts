@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { OrderProductService } from '../order-product/order-product.service';
 import { ProductService } from '../product/product.service';
 import { ProductAddDto } from './dto/product-add.dto';
+import { Role } from '../role/entities/role.entity';
 
 @Injectable()
 export class OrderService {
@@ -41,12 +42,20 @@ export class OrderService {
     return await this.orderRepository.save(order);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    return await this.orderRepository.findOneOrFail({where: {id: id}, relations:["orderProducts.product"]});
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    let order = await this.findOne(id);
+    if (updateOrderDto.info != undefined) {
+      order.info = updateOrderDto.info;
+    }
+    if (updateOrderDto.status != undefined) {
+      order.status = updateOrderDto.status;
+    }
+    
+    return await this.orderRepository.save(order);
   }
 
   remove(id: number) {

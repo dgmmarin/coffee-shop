@@ -1,10 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseFilters } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ProductAddDto } from './dto/product-add.dto';
+import { HttpExceptionFilterFilter } from 'src/filters/http-exception-filter/http-exception-filter.filter';
+import { EntityNotFoundFilter } from 'src/filters/entity-not-found/entity-not-found.filter';
+import { Roles } from 'src/services/auth/roles/roles.decorators';
+import { Role } from 'src/services/auth/roles/role.enum';
 
 @Controller('order')
+@UseFilters(new HttpExceptionFilterFilter(), new EntityNotFoundFilter())
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
@@ -23,6 +28,7 @@ export class OrderController {
     return this.orderService.findOne(+id);
   }
 
+  @Roles( Role.Waiter, Role.Chef)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.orderService.update(+id, updateOrderDto);
