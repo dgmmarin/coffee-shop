@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { Role } from '../role/entities/role.entity';
 import { CreateRoleDto } from './dto/add-role.dro';
 import { RoleService } from '../role/role.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -15,11 +16,13 @@ export class UserService {
     @Inject(RoleService) private roleService: RoleService,
   ){}
   async create(createUserDto: CreateUserDto) {
+    const saltOrRounds = 10;
+    const hash = await bcrypt.hash(createUserDto.password, saltOrRounds);
     const user = new User();
-    user.email = createUserDto.email
-    user.firstName = createUserDto.firstName
-    user.lastName = createUserDto.lastName
-    user.password = createUserDto.password
+    user.email = createUserDto.email;
+    user.firstName = createUserDto.firstName;
+    user.lastName = createUserDto.lastName;
+    user.password = hash;
     return await this.userRepository.save(user);
   }
 

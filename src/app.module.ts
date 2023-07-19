@@ -13,10 +13,14 @@ import { AuthModule } from './services/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './services/auth/guards/auth.guard';
 import { RolesGuard } from './services/auth/guards/roles.guard';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     ProductModule,
     UserModule,
     TableModule,
