@@ -41,12 +41,16 @@ export class OrderService {
     return await this.orderRepository.save(order);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    return await this.orderRepository.findOneOrFail({where: {id:id},relations:["orderProducts.product"]});
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    let order = await this.findOne(id);
+    order.status = updateOrderDto.status ?? order.status;
+    order.info = updateOrderDto.info ?? order.info;
+    return await this.orderRepository.save(order);
+    
   }
 
   remove(id: number) {

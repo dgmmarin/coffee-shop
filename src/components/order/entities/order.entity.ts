@@ -7,7 +7,10 @@ export class Order {
     id: number;
 
     @Column({name: 'info',  default: null})
-    info:String;
+    info:string;
+
+    @Column({name: 'status', default:null})
+    status:string;
 
     @OneToMany(() => OrderProduct, orderProduct => orderProduct.order)
     orderProducts: OrderProduct[]
