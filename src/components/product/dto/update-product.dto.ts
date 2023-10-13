@@ -3,12 +3,12 @@ import { CreateProductDto } from './create-product.dto';
 import { IsOptional } from 'class-validator';
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {
-    @IsOptional()
-    name: String
+  @IsOptional()
+  name: string;
 
-    @IsOptional()
-    um: String
+  @IsOptional()
+  um: string;
 
-    @IsOptional()
-    stock: Number
+  @IsOptional()
+  stock: number;
 }

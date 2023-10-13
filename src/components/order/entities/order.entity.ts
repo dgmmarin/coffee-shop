@@ -1,14 +1,20 @@
-import { OrderProduct } from "src/components/order-product/entities/order-product.entity";
-import { Product } from "src/components/product/entities/product.entity";
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-@Entity({name: 'orders'})
+import { OrderProduct } from '../../order-product/entities/order-product.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+@Entity({ name: 'orders' })
 export class Order {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({name: 'info',  default: null})
-    info:String;
+  @Column({ name: 'info', default: null })
+  info: string;
 
-    @OneToMany(() => OrderProduct, orderProduct => orderProduct.order)
-    orderProducts: OrderProduct[]
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order)
+  orderProducts: OrderProduct[];
 }

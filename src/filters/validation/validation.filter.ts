@@ -7,10 +7,15 @@ export class ValidationFilter<T> implements ValidationError {
   target?: object;
   property: string;
   value?: any;
-  constraints?: { [type: string]: string; };
+  constraints?: { [type: string]: string };
   children?: ValidationError[];
-  contexts?: { [type: string]: any; };
-  toString(shouldDecorate?: boolean, hasParent?: boolean, parentPath?: string, showConstraintMessages?: boolean): string {
+  contexts?: { [type: string]: any };
+  toString(
+    shouldDecorate?: boolean,
+    hasParent?: boolean,
+    parentPath?: string,
+    showConstraintMessages?: boolean,
+  ): string {
     throw new Error('Method not implemented.');
   }
   catch(exception: ValidationError, host: ArgumentsHost) {
@@ -23,7 +28,7 @@ export class ValidationFilter<T> implements ValidationError {
         statusCode: status,
         timestamp: new Date().toISOString(),
         path: request.url,
-        message: exception?.children?.toString() ?? "",
+        message: exception?.children?.toString() ?? '',
       },
     });
   }

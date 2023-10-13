@@ -12,32 +12,36 @@ import { ProductAddDto } from './dto/product-add.dto';
 export class OrderService {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
-    @Inject(OrderProductService) private orderProductService: OrderProductService,
-    @Inject(ProductService) private productService: ProductService
-  ){
-
-  }
+    @Inject(OrderProductService)
+    private orderProductService: OrderProductService,
+    @Inject(ProductService) private productService: ProductService,
+  ) {}
   async create(createOrderDto: CreateOrderDto) {
-    let order = new Order();
+    const order = new Order();
     return await this.orderRepository.save(order);
   }
 
   async findAll() {
-    return await this.orderRepository.find({relations:["orderProducts.product"]});
+    return await this.orderRepository.find({
+      relations: ['orderProducts.product'],
+    });
   }
 
-  async addProduct(id:number, productAdd: ProductAddDto) {
-    let order = await this.orderRepository.findOneOrFail({where: {id: id}});
-    let product = await this.productService.findOne(productAdd.productId);
-    let orderProduct = await this.orderProductService.create({
+  async addProduct(id: number, productAdd: ProductAddDto) {
+    let order = await this.orderRepository.findOneOrFail({ where: { id: id } });
+    const product = await this.productService.findOne(productAdd.productId);
+    const orderProduct = await this.orderProductService.create({
       order: order,
       product: product,
       quantity: productAdd.quantity,
-      info: productAdd.info
+      info: productAdd.info,
     });
 
     console.log(orderProduct);
-    order = await this.orderRepository.findOneOrFail({where: {id: id},relations:["orderProducts.product"]});
+    order = await this.orderRepository.findOneOrFail({
+      where: { id: id },
+      relations: ['orderProducts.product'],
+    });
     return await this.orderRepository.save(order);
   }
 

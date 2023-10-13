@@ -1,3 +1,3 @@
 export class CreateOrderDto {
-    info:string
+  info: string;
 }

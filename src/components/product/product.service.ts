@@ -4,13 +4,19 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectRepository(Product) private productRepository: Repository<Product>
-  ){}
-  async create(createProductDto: CreateProductDto): Promise<Product | Error>{
+    @InjectRepository(Product) private productRepository: Repository<Product>,
+  ) {}
+
+  async create(createProductDto: CreateProductDto): Promise<Product | Error> {
     const product = new Product();
     product.name = createProductDto.name;
     product.um = createProductDto.um;
@@ -19,33 +25,33 @@ export class ProductService {
     return product;
   }
 
-  async findAll() {
-    const products = await this.productRepository.find();
-    return products;
+  async findAll(options: IPaginationOptions): Promise<Pagination<Product>> {
+    const queryBuilder = this.productRepository.createQueryBuilder('p');
+    queryBuilder.orderBy('p.id', 'DESC');
+    return paginate<Product>(queryBuilder, options);
   }
-
 
   async findOne(id: number) {
     return await this.productRepository.findOneOrFail({
-      where:{
-        id: id
-      }
-    })
+      where: {
+        id: id,
+      },
+    });
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
-    let product = await this.findOne(id);
+    const product = await this.findOne(id);
     if (updateProductDto.stock != undefined) {
       product.stock = updateProductDto.stock;
     }
 
     if (updateProductDto.um != undefined) {
-      product.um = updateProductDto.um
+      product.um = updateProductDto.um;
     }
     return await this.productRepository.save(product);
   }
 
   async remove(id: number) {
-    return await this.productRepository.softDelete({id: id})
+    return await this.productRepository.softDelete({ id: id });
   }
 }

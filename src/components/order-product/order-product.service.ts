@@ -8,10 +8,11 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class OrderProductService {
   constructor(
-    @InjectRepository(OrderProduct) private orderProductRepository: Repository<OrderProduct>
-  ) { }
+    @InjectRepository(OrderProduct)
+    private orderProductRepository: Repository<OrderProduct>,
+  ) {}
   async create(createOrderProductDto: CreateOrderProductDto) {
-    let orderProduct = new OrderProduct();
+    const orderProduct = new OrderProduct();
     orderProduct.info = createOrderProductDto.info;
     orderProduct.order = createOrderProductDto.order;
     orderProduct.product = createOrderProductDto.product;
@@ -25,8 +26,8 @@ export class OrderProductService {
 
   findOne(id: number) {
     return this.orderProductRepository.findOneBy({
-      id: id
-    })
+      id: id,
+    });
   }
 
   update(id: number, updateOrderProductDto: UpdateOrderProductDto) {

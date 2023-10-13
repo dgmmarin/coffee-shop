@@ -8,10 +8,10 @@ import { Role } from './entities/role.entity';
 @Injectable()
 export class RoleService {
   constructor(
-    @InjectRepository(Role) private roleRepository: Repository<Role>
-  ){}
+    @InjectRepository(Role) private roleRepository: Repository<Role>,
+  ) {}
   async create(createRoleDto: CreateRoleDto) {
-    var role = new Role();
+    const role = new Role();
     role.name = createRoleDto.name;
     return await this.roleRepository.save(role);
   }
@@ -21,7 +21,7 @@ export class RoleService {
   }
 
   async findOne(id: number) {
-    return await this.roleRepository.findOneOrFail({where:{id: id}});
+    return await this.roleRepository.findOneOrFail({ where: { id: id } });
   }
 
   update(id: number, updateRoleDto: UpdateRoleDto) {
@@ -29,7 +29,7 @@ export class RoleService {
   }
 
   async remove(id: number) {
-    let role = await this.findOne(id);
+    const role = await this.findOne(id);
     return await this.roleRepository.softDelete(role);
   }
 }

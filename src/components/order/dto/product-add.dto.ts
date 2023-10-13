@@ -1,5 +1,5 @@
-export class ProductAddDto{
-    productId: number
-    quantity: number
-    info:string
+export class ProductAddDto {
+  productId: number;
+  quantity: number;
+  info: string;
 }
